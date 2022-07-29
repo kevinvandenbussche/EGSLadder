@@ -22,9 +22,9 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
-    App\DataPersister\UserDataPersister:
+    App\DataPersister\ToPlayDataPersister:
         bind:
             $decorated: '@api_platform.doctrine.orm.data_persister'
-    App\DataPersister\ToPlayDataPersister:
+    App\DataPersister\UserDataPersister:
         bind:
             $decorated: '@api_platform.doctrine.orm.data_persister'

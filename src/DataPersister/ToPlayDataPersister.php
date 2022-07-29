@@ -3,6 +3,8 @@
 namespace App\DataPersister;
 
 use ApiPlatform\Core\DataPersister\ContextAwareDataPersisterInterface;
+use App\Entity\ToPlay;
+use App\Entity\User;
 use App\Service\ApiLeagueOfLegends;
 use function PHPUnit\Framework\throwException;
 
@@ -16,7 +18,7 @@ class ToPlayDataPersister implements ContextAwareDataPersisterInterface
     }
     public function supports($data, array $context = []): bool
     {
-        return $this->decorated->supports($data, $context);
+        return $data instanceof ToPlay;
     }
 
     public function persist($data, array $context = [])
@@ -29,6 +31,7 @@ class ToPlayDataPersister implements ContextAwareDataPersisterInterface
         }
         throwException(new \Exception());
         return null;
+
     }
 
     public function remove($data, array $context = [])
