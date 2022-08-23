@@ -23,8 +23,9 @@ class ToPlayDataPersister implements ContextAwareDataPersisterInterface
 
     public function persist($data, array $context = [])
     {
+        $pseudonyme = $data->getPseudonyme();
         $client = new ApiLeagueOfLegends();
-        $accountId = $client->getPlayerLeagueOfLegends('spillerfr');
+        $accountId = $client->getPlayerLeagueOfLegends($pseudonyme);
         if(json_decode($accountId) == false){
             $data->setAccountId($accountId);
             return $this->decorated->persist($data, $context);

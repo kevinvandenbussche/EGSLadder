@@ -23,8 +23,8 @@ class Game
     #[ORM\ManyToOne(inversedBy: 'games')]
     private ?Coach $coach = null;
 
-    #[ORM\OneToOne(inversedBy: 'game', cascade: ['persist', 'remove'])]
-    private ?CalculationElo $calculation = null;
+    #[ORM\OneToMany(mappedBy: 'game', targetEntity: Game::class,cascade: ['persist', 'remove'])]
+    private Collection $calculation;
 
     #[ORM\OneToMany(mappedBy: 'game', targetEntity: ToPlay::class, cascade: ["persist"])]
     private Collection $toPlays;
@@ -32,6 +32,7 @@ class Game
     public function __construct()
     {
         $this->toPlays = new ArrayCollection();
+        $this->calculation = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -63,14 +64,29 @@ class Game
         return $this;
     }
 
-    public function getCalculation(): ?CalculationElo
+    public function getCalculation(): array
     {
-        return $this->calculation;
+        return $this->calculation->getValues();
     }
 
-    public function setCalculation(?CalculationElo $calculation): self
+    public function addCalculation(CalculationElo $calculationElo): self
     {
-        $this->calculation = $calculation;
+        if (!$this->calculation->contains($calculationElo)) {
+            $this->calculation[] = $calculationElo;
+            $calculationElo->setGame($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCalculation(CalculationElo $calculationElo): self
+    {
+        if ($this->calculation->removeElement($calculationElo)) {
+            // set the owning side to null (unless already changed)
+            if ($calculationElo->getGame() === $this) {
+                $calculationElo->setGame(null);
+            }
+        }
 
         return $this;
     }

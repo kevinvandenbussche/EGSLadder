@@ -20,7 +20,7 @@ class CalculationElo
     #[ORM\Column]
     private ?int $eloInternal = null;
 
-    #[ORM\OneToOne(mappedBy: 'calculation', cascade: ['persist', 'remove'])]
+    #[ORM\ManyToOne(cascade: ['persist', 'remove'], inversedBy: 'calculation')]
     private ?Game $game = null;
 
     public function getId(): ?int
