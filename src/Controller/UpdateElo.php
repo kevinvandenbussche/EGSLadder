@@ -7,6 +7,7 @@ use App\Entity\ToPlay;
 use App\Repository\CalculationEloRepository;
 use App\Repository\GameRepository;
 use App\Repository\ToPlayRepository;
+use App\Repository\UserRepository;
 use App\Service\ApiLeagueOfLegends;
 use App\Service\ConvertEloLeagueOfLegends;
 use Doctrine\ORM\EntityManagerInterface;
@@ -24,19 +25,35 @@ class UpdateElo extends AbstractController
                               $id,
                               ApiLeagueOfLegends $apiLeagueOfLegends,
                               EntityManagerInterface $entityManager,
-                              ConvertEloLeagueOfLegends $convertEloLeagueOfLegends
+                              ConvertEloLeagueOfLegends $convertEloLeagueOfLegends,
+                              UserRepository $userRepository
     ): JsonResponse
     {
-        $toPlay = $toPlayRepository->findOneBy(['user'=>$id]);
-        $accountId = $toPlay->getAccountId();
+        //je recupere les données utilisateurs de ma table Toplay
+        $toPlayOld = $toPlayRepository->findOneBy(['user'=>$id]);
+        $accountId = $toPlayOld->getAccountId();
+        $startdate = $toPlayOld->getDateStart();
+        $startEnd = $toPlayOld->getDateEnd();
+        $game = $toPlayOld->getGame();
         $datas = $apiLeagueOfLegends->apiLeaguesOfLegendsElo($accountId);
+        $user = $userRepository->find($id);
         $internalElo = 0;
         if(count($datas) > 0){
             $internalElo = $convertEloLeagueOfLegends->getInternalElo($datas[0]['tier'], $datas[0]['rank'], $datas[0]['leaguePoints']);
-
         }
-        $toPlay->setElo($internalElo);
-        $entityManager->persist($toPlay);
+        //je créer une nouvelle entité avec les données de l'utilisateur et je mets les nouvelles données recuperé de l'api
+        $newToplay = new Toplay();
+        $newToplay->setPseudonyme($datas[0]['summonerName']);
+        $newToplay->setDateRegisterElo(new \DateTime());
+        $newToplay->setElo($internalElo);
+        $newToplay->setUser($user);
+        $newToplay->setDateStart($startdate);
+        if($startEnd != null){
+            $newToplay->setDateEnd($startEnd);
+        }
+        $newToplay->setAccountId($accountId);
+        $newToplay->setGame($game);
+        $entityManager->persist($newToplay);
         $entityManager->flush();
         return new JsonResponse(
             'mise jour elo reussi'
