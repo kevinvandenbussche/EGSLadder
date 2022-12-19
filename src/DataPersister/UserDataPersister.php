@@ -4,7 +4,6 @@ namespace App\DataPersister;
 
 use ApiPlatform\Core\DataPersister\ContextAwareDataPersisterInterface;
 use App\Entity\User;
-use App\Service\ApiLeagueOfLegends;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 
@@ -19,7 +18,7 @@ final class UserDataPersister implements ContextAwareDataPersisterInterface
     {
         $this->decorated = $decorated;
         $this->passwordHasheur = $passwordHasher;
-        
+
     }
     public function supports($data, array $context = []): bool
     {

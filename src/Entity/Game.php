@@ -23,10 +23,10 @@ class Game
     #[ORM\ManyToOne(inversedBy: 'games')]
     private ?Coach $coach = null;
 
-    #[ORM\OneToMany(mappedBy: 'game', targetEntity: Game::class,cascade: ['persist', 'remove'])]
+    #[ORM\OneToMany(mappedBy: 'game', targetEntity: Game::class, cascade: ['persist', 'remove'])]
     private Collection $calculation;
 
-    #[ORM\OneToMany(mappedBy: 'game', targetEntity: ToPlay::class, cascade: ["persist"])]
+    #[ORM\OneToMany(mappedBy: 'game', targetEntity: ToPlay::class, cascade: ['persist'])]
     private Collection $toPlays;
 
     public function __construct()
