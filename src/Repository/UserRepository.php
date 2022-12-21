@@ -56,20 +56,24 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $this->add($user, true);
     }
 
+//SELECT  name, firstname, pseudonyme from to_play
+//INNER join user on user.id = to_play.user_id
+//GROUP BY pseudonyme ORDER BY name;
 //    /**
 //     * @return User[] Returns an array of User objects
 //     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('u')
-//            ->andWhere('u.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('u.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    public function findPeudonymeUniqueByUser(): array
+    {
+        return $this->createQueryBuilder('u')
+            ->select('u.name, u.firstname, t.pseudonyme, u.id')
+            ->innerJoin('u.toPlays', 't')
+            ->groupBy('t.pseudonyme')
+            ->orderBy('u.name', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+//
 
 //    public function findOneBySomeField($value): ?User
 //    {
