@@ -56,9 +56,11 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $this->add($user, true);
     }
 
-//SELECT  name, firstname, pseudonyme from to_play
-//INNER join user on user.id = to_play.user_id
-//GROUP BY pseudonyme ORDER BY name;
+//requete sous format sql
+//SELECT  u.name , firstname, pseudonyme, MAX(elo), MIN(elo), g.name from to_play
+//INNER join user AS u on u.id = to_play.user_id
+//INNER join game as g on g.id = to_play.game_id
+//GROUP BY pseudonyme ORDER BY u.name;
 //    /**
 //     * @return User[] Returns an array of User objects
 //     */
@@ -73,6 +75,7 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
             ->getResult()
         ;
     }
+
 //
 
 //    public function findOneBySomeField($value): ?User

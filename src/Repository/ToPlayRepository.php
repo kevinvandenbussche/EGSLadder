@@ -42,17 +42,17 @@ class ToPlayRepository extends ServiceEntityRepository
 //    /**
 //     * @return ToPlay[] Returns an array of ToPlay objects
 //     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('t')
-//            ->andWhere('t.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('t.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    public function findAllEloByUser($id): array
+    {
+        return $this->createQueryBuilder('t')
+            ->select('t.elo, t.pseudonyme, g.name, t.dateRegisterElo' )
+            ->innerJoin('t.game', 'g')
+            ->innerJoin('t.user', 'u')
+            ->where('u.id = ' . $id)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 
 //    public function findOneBySomeField($value): ?ToPlay
 //    {
