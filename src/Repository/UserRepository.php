@@ -60,7 +60,9 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
 //SELECT  u.name , firstname, pseudonyme, MAX(elo), MIN(elo), g.name from to_play
 //INNER join user AS u on u.id = to_play.user_id
 //INNER join game as g on g.id = to_play.game_id
-//GROUP BY pseudonyme ORDER BY u.name;
+//GROUP BY pseudonyme, g.name ORDER BY u.name;
+
+
 //    /**
 //     * @return User[] Returns an array of User objects
 //     */
@@ -74,6 +76,23 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
             ->getQuery()
             ->getResult()
         ;
+    }
+//SELECT  u.id , g.name from to_play
+//INNER join user AS u on u.id = to_play.user_id
+//INNER join game as g on g.id = to_play.game_id
+//WHERE u.id = 1
+//GROUP BY g.name
+    public function findGamesByUser($id):array
+    {
+        return $this->createQueryBuilder('u')
+            ->select('u.id, g.name as nameGame', 'g.id as idGame')
+            ->innerJoin('u.toPlays', 't')
+            ->innerJoin('t.game', 'g')
+            ->where('u.id = ' . $id)
+            ->groupBy( 'g.name')
+            ->getQuery()
+            ->getResult()
+            ;
     }
 
 //
