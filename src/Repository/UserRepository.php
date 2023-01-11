@@ -69,9 +69,7 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
     public function findPeudonymeUniqueByUser(): array
     {
         return $this->createQueryBuilder('u')
-            ->select('u.name, u.firstname, t.pseudonyme, u.id')
-            ->innerJoin('u.toPlays', 't')
-            ->groupBy('t.pseudonyme')
+            ->select('u.name, u.firstname, u.id')
             ->orderBy('u.name', 'ASC')
             ->getQuery()
             ->getResult()
@@ -85,7 +83,7 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
     public function findGamesByUser($id):array
     {
         return $this->createQueryBuilder('u')
-            ->select('u.id, g.name as nameGame', 'g.id as idGame')
+            ->select('u.id, g.name as nameGame', 'g.id as idGame', 't.pseudonyme as pseudo', 'MAX(t.elo) as maxElo', 'MIN(t.elo) as minElo')
             ->innerJoin('u.toPlays', 't')
             ->innerJoin('t.game', 'g')
             ->where('u.id = ' . $id)
