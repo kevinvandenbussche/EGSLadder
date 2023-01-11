@@ -83,11 +83,26 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
     public function findGamesByUser($id):array
     {
         return $this->createQueryBuilder('u')
-            ->select('u.id, g.name as nameGame', 'g.id as idGame', 't.pseudonyme as pseudo', 'MAX(t.elo) as maxElo', 'MIN(t.elo) as minElo')
+            ->select('u.id', 'g.name as nameGame', 'g.id as idGame', 't.pseudonyme as pseudo', 'MAX(t.elo) as maxElo', 'MIN(t.elo) as minElo')
             ->innerJoin('u.toPlays', 't')
             ->innerJoin('t.game', 'g')
             ->where('u.id = ' . $id)
             ->groupBy( 'g.name')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
+    public function searchBarre($search):array
+    {
+        return $this->createQueryBuilder('u')
+            ->select('u.name', 'u.firstname', 'u.id')
+//            ->innerJoin('u.toPlays', 't')
+            ->where('u.name LIKE :search')
+            ->orWhere('u.firstname LIKE :search')
+//            ->orWhere('t.pseudonyme LIKE :search')
+//            ->groupBy('t.pseudonyme')
+            ->setParameter('search', '%'.$search.'%')
             ->getQuery()
             ->getResult()
             ;
