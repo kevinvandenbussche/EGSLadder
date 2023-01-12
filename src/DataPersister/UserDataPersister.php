@@ -4,7 +4,9 @@ namespace App\DataPersister;
 
 use ApiPlatform\Core\DataPersister\ContextAwareDataPersisterInterface;
 use App\Entity\User;
+use JetBrains\PhpStorm\NoReturn;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use function PHPUnit\Framework\isEmpty;
 
 
 //use ApiPlatform\Core\DataPersister\DataPersisterInterface;
@@ -25,7 +27,7 @@ final class UserDataPersister implements ContextAwareDataPersisterInterface
         return $data instanceof User;
     }
 
-    public function persist($data, array $context = [])
+    #[NoReturn] public function persist($data, array $context = [])
     {
         if($data->getPassword()){
             $data->setPassword(
@@ -33,7 +35,10 @@ final class UserDataPersister implements ContextAwareDataPersisterInterface
             );
             $data->eraseCredentials();
         }
-
+        if ($data->getRoles()[0] !== "ROLE_USER" || isEmpty($data->getRoles()[0])) {
+            $data->setRoles(["ROLE_USER"]);
+            $data->eraseCredentials();
+        }
         return $this->decorated->persist($data, $context);
     }
 
