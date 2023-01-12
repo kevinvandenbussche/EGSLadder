@@ -37,7 +37,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255)]
     private ?string $firstname = null;
 
-    #[ORM\OneToMany(mappedBy: 'user', targetEntity: ToPlay::class, cascade: ["persist"])]
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: ToPlay::class, cascade: ["remove"])]
     private Collection $toPlays;
 
     public function __construct()

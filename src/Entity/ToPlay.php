@@ -36,7 +36,8 @@ class ToPlay
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $accountId = null;
 
-    #[ORM\ManyToOne(inversedBy: 'toPlays')]
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'toPlays')]
+    #[ORM\JoinColumn(name: 'user_id', referencedColumnName: 'id')]
     private ?User $user = null;
 
     #[ORM\ManyToOne(inversedBy: 'toPlays')]
