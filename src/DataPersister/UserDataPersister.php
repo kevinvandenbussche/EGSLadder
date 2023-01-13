@@ -4,6 +4,7 @@ namespace App\DataPersister;
 
 use ApiPlatform\Core\DataPersister\ContextAwareDataPersisterInterface;
 use App\Entity\User;
+use Exception;
 use JetBrains\PhpStorm\NoReturn;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use function PHPUnit\Framework\isEmpty;
@@ -27,6 +28,9 @@ final class UserDataPersister implements ContextAwareDataPersisterInterface
         return $data instanceof User;
     }
 
+    /**
+     * @throws Exception
+     */
     #[NoReturn] public function persist($data, array $context = [])
     {
         if($data->getPassword()){
@@ -39,6 +43,31 @@ final class UserDataPersister implements ContextAwareDataPersisterInterface
             $data->setRoles(["ROLE_USER"]);
             $data->eraseCredentials();
         }
+        //je mets le nom et le prenom en minuscule
+        $lowerName = strtolower($data->getName());
+        $lowerFirstName = strtolower($data->getFirstName());
+
+        //je verifie que le nom et le prenom ne contiennent pas le mot script suivi d'un espace
+        if (preg_match('/^(?!.*script\s)/', $lowerName)) {
+            $data->setName($lowerName);
+        } else {
+            throw new Exception("nom contient script");
+        }
+
+        if (preg_match('/^(?!.*script\s)/', $lowerFirstName)) {
+            $data->setFirstName($lowerFirstName);
+        } else {
+            throw new Exception("prenom contient script");
+        }
+
+        //je verifie que le mail soit valide
+        $email = $data->getEmail();
+        if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            $data->setEmail($email);
+        } else {
+            throw new Exception("Email is not valid");
+        }
+
         return $this->decorated->persist($data, $context);
     }
 
