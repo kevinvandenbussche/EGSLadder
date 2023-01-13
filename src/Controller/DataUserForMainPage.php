@@ -31,12 +31,17 @@ class DataUserForMainPage extends AbstractController
     #[Route('api/search-player/{string}', name: 'search-player', methods: "GET")]
     public function searchPlayer($string, UserRepository $userRepository): JsonResponse
     {
-        $users = $userRepository->searchBarre($string);
-        return new JsonResponse(
-            $users
-        );
+        if (!preg_match('/<script\ +>/', $string)) {
+            $users = $userRepository->searchBarre($string);
+            return new JsonResponse(
+                $users
+            );
+        } else {
+            return new JsonResponse(
+                t('error')
+            );
+        }
     }
-
 }
 
 
