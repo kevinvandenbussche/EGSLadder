@@ -39,10 +39,14 @@ final class UserDataPersister implements ContextAwareDataPersisterInterface
             );
             $data->eraseCredentials();
         }
-        if ($data->getRoles()[0] !== "ROLE_USER" || isEmpty($data->getRoles()[0])) {
-            $data->setRoles(["ROLE_USER"]);
-            $data->eraseCredentials();
+        if($data->getRoles()[0] == "ROLE_ADMIN"){
+            $data->setRoles(['ROLE_ADMIN']);
+        }else if(($data->getRoles()[0] == "ROLE_STAFF")){
+            $data->setRoles(['ROLE_STAFF']);
+        }else{
+            $data->setRoles(['ROLE_USER']);
         }
+
         //je mets le nom et le prenom en minuscule
         $lowerName = strtolower($data->getName());
         $lowerFirstName = strtolower($data->getFirstName());
