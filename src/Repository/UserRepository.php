@@ -66,7 +66,7 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
 //    /**
 //     * @return User[] Returns an array of User objects
 //     */
-    public function findPeudonymeUniqueByUser(): array
+    public function findUserLight(): array
     {
         return $this->createQueryBuilder('u')
             ->select('u.name, u.firstname, u.id')

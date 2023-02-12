@@ -7,10 +7,6 @@ use App\Entity\User;
 use Exception;
 use JetBrains\PhpStorm\NoReturn;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
-use function PHPUnit\Framework\isEmpty;
-
-
-//use ApiPlatform\Core\DataPersister\DataPersisterInterface;
 
 final class UserDataPersister implements ContextAwareDataPersisterInterface
 {
