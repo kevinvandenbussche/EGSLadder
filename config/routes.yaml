@@ -14,3 +14,6 @@ games_by_player:
 search_player:
     path: api/search-player/{string}
     controller: App\Controller\SearchPlayer::__invoke
+update_elo:
+    path: api/update-elo/{id}
+    controller: App\Controller\UpdateElo::__invoke{id}
