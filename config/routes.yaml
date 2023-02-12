@@ -1,3 +1,16 @@
-controllers:
-    resource: ../src/Controller/
-    type: attribute
+# api/config/routes.yaml
+auth:
+    path: /login
+    methods: ['POST']
+data_game:
+    path: api/data-game
+    controller: App\Controller\DataGameLightData::__invoke
+data_user_for_main_page:
+    path: api/data-user-for-main-page
+    controller: App\Controller\DataUserLightData::__invoke
+games_by_player:
+    path: api/games-by-player/{id}
+    controller: App\Controller\GamesByUser::__invoke
+search_player:
+    path: api/search-player/{string}
+    controller: App\Controller\SearchPlayer::__invoke
