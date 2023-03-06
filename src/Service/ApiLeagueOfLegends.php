@@ -27,9 +27,7 @@ class ApiLeagueOfLegends extends HttpClient
                 'https://euw1.api.riotgames.com/lol/summoner/v4/summoners/by-account/' . $accountId . '?api_key=RGAPI-df1be0e0-0829-4a37-ba74-77065b87f501'
             );
             $arrayForEncryptedId = $responseForEncryptedId->toArray();
-            $encryptedId = $arrayForEncryptedId["id"];
-
-            return $encryptedId;
+            return $arrayForEncryptedId["id"];
         } catch (\Exception $e) {
             var_dump("erreur lors de la recuperation du encrypted id " . $e);
         }
