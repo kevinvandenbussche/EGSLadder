@@ -4,18 +4,40 @@ namespace App\Controller;
 
 use App\Repository\ToPlayRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Attribute\AsController;
+use ApiPlatform\Core\Annotation\ApiResource;
 
+
+#[ApiResource(
+    collectionOperations: [
+        'get' => [
+            'path' => 'api/find-elo-by-user/{id}',
+            'status' => 200,
+        ],
+    ],
+    itemOperations: [
+        'get' => [
+            'path' => 'api/find-elo-by-user/{id}',
+            'defaults' => ['color' => 'brown'],
+            'options' => ['my_option' => 'my_option_value'],
+            'schemes' => ['https'],
+            'host' => '{subdomain}.api-platform.com',
+        ],
+    ],
+)]
+#[AsController]
 class FindElo extends AbstractController
 {
-    #[Route('api/find-elo-by-user/{id}', name: 'find_elo', methods: "GET")]
-    public function findEloByUser(ToPlayRepository $toPlayRepository, $id): JsonResponse
+    private ToPlayRepository $toPlayRepository;
+    public function __construct(ToPlayRepository $toPlayRepository)
     {
-        $elo = $toPlayRepository->findAllEloByUser($id);
-        return new JsonResponse(
-            $elo
-        );
-    }
+        $this->toPlayRepository = $toPlayRepository;
 
+    }
+    public function __invoke($id): Response
+    {
+        $data = $this->toPlayRepository->findAllEloByUser($id);
+        return new Response(json_encode($data));
+    }
 }
