@@ -1,6 +1,6 @@
 # api/config/routes.yaml
 auth:
-    path: /login
+    path: login
     methods: ['POST']
 data_game:
     path: api/data-game
@@ -16,4 +16,7 @@ search_player:
     controller: App\Controller\SearchPlayer::__invoke
 update_elo:
     path: api/update-elo/{id}
-    controller: App\Controller\UpdateElo::__invoke{id}
+    controller: App\Controller\UpdateElo::__invoke
+find_elo_by_user:
+    path: api/find-elo-by-user/{id}
+    controller: App\Controller\FindElo::__invoke
