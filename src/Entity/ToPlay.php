@@ -27,7 +27,7 @@ class ToPlay
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $date_end = null;
 
-    #[ORM\Column]
+    #[ORM\Column (nullable: true)]
     private ?int $elo = null;
 
     #[ORM\Column(length: 255)]

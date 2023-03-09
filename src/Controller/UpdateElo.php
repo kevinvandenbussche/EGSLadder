@@ -74,6 +74,7 @@ class UpdateElo extends AbstractController
         $newToplay->setGame($game);
         $this->entityManager->persist($newToplay);
         $this->entityManager->flush();
+
         return new JsonResponse(
             'mise jour elo reussi'
         );

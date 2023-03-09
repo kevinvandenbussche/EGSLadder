@@ -35,9 +35,9 @@ class FindElo extends AbstractController
         $this->toPlayRepository = $toPlayRepository;
 
     }
-    public function __invoke($id): Response
+    public function __invoke($id, $idGame): Response
     {
-        $data = $this->toPlayRepository->findAllEloByUser($id);
+        $data = $this->toPlayRepository->findAllEloByUser($id, $idGame);
         return new Response(json_encode($data));
     }
 }

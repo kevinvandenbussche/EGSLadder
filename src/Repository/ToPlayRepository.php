@@ -42,13 +42,14 @@ class ToPlayRepository extends ServiceEntityRepository
 //    /**
 //     * @return ToPlay[] Returns an array of ToPlay objects
 //     */
-    public function findAllEloByUser($id): array
+    public function findAllEloByUser($id, $idGame): array
     {
         return $this->createQueryBuilder('t')
             ->select('t.elo, t.pseudonyme, g.name, t.dateRegisterElo' )
             ->innerJoin('t.game', 'g')
             ->innerJoin('t.user', 'u')
             ->where('u.id = ' . $id)
+            ->andWhere('g.id = ' . $idGame)
             ->getQuery()
             ->getResult()
         ;
