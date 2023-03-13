@@ -69,7 +69,7 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
     public function findUserLight(): array
     {
         return $this->createQueryBuilder('u')
-            ->select('u.name, u.firstname, u.id')
+            ->select('u.name, u.firstname, u.id', 'u.roles')
             ->orderBy('u.name', 'ASC')
             ->getQuery()
             ->getResult()

@@ -37,8 +37,10 @@ final class UserDataPersister implements ContextAwareDataPersisterInterface
         }
         if($data->getRoles()[0] == "ROLE_ADMIN"){
             $data->setRoles(['ROLE_ADMIN']);
-        }else if(($data->getRoles()[0] == "ROLE_STAFF")){
+        }else if(($data->getRoles()[0] == "ROLE_STAFF")) {
             $data->setRoles(['ROLE_STAFF']);
+        }else if($data->getRoles()[0] == "ROLE_COACH"){
+            $data->setRoles(['ROLE_COACH']);
         }else{
             $data->setRoles(['ROLE_USER']);
         }
