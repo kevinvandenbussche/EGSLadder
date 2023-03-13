@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use ApiPlatform\Core\Annotation\ApiResource;
-use ApiPlatform\Metadata\Get;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -38,9 +37,16 @@ class DataUserLightData extends AbstractController
 
     public function __invoke(): Response
     {
-        $data = $this->userRepository->findUserLight();
-
-        return new Response(json_encode($data));
+        $datas = $this->userRepository->findUserLight();
+        $arrayWithUserRoleUser = [];
+        foreach ($datas as $data) {
+            foreach ($data['roles'] as $role) {
+                if ($role === 'ROLE_USER'){
+                    $arrayWithUserRoleUser[] = $data;
+                }
+            }
+        }
+        return new Response(json_encode($arrayWithUserRoleUser));
     }
 
 }

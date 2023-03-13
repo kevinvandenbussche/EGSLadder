@@ -20,9 +20,6 @@ class Game
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[ORM\ManyToOne(inversedBy: 'games')]
-    private ?Coach $coach = null;
-
     #[ORM\OneToMany(mappedBy: 'game', targetEntity: CalculationElo::class, cascade: ['persist', 'remove'])]
     private Collection $calculation;
 
@@ -48,18 +45,6 @@ class Game
     public function setName(string $name): self
     {
         $this->name = $name;
-
-        return $this;
-    }
-
-    public function getCoach(): ?Coach
-    {
-        return $this->coach;
-    }
-
-    public function setCoach(?Coach $coach): self
-    {
-        $this->coach = $coach;
 
         return $this;
     }
