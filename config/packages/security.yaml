@@ -33,9 +33,11 @@ security:
                 success_handler: lexik_jwt_authentication.handler.authentication_success
                 failure_handler: lexik_jwt_authentication.handler.authentication_failure
 
-
+#
 #    access_control:
 #        - { path: ^/login, roles: PUBLIC_ACCESS }
-#        - { path: ^/api/users, roles: PUBLIC_ACCESS }
-#        - { path: ^/api, roles:  ROLE_USER }
+#        - { path: ^api/create-user, roles: PUBLIC_ACCESS }
+#        - { path: ^/api/users, roles: ROLE_ADMIN }
 #        - { path: ^/docs, roles: ROLE_USER }
+#        - { path: ^/api/to_plays, roles: ROLE_USER }
+#        - { path: ^/api/games, roles: ROLE_USER }
