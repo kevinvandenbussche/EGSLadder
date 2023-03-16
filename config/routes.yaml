@@ -12,7 +12,7 @@ games_by_player:
     path: api/games-by-player/{id}
     controller: App\Controller\GamesByUser::__invoke
 search_player:
-    path: api/search-player/{string}
+    path: api/search-user/{string}
     controller: App\Controller\SearchPlayer::__invoke
 update_elo:
     path: api/update-elo/{id}
@@ -20,3 +20,9 @@ update_elo:
 find_elo_by_user:
     path: api/find-elo-by-user/{id}/{idGame}
     controller: App\Controller\FindElo::__invoke
+find_coach:
+    path: api/find-coach
+    controller: App\Controller\DataUserLightDataRoleCoach::__invoke
+search_coach:
+    path: api/search-coach/{string}
+    controller: App\Controller\SearchCoach::__invoke
