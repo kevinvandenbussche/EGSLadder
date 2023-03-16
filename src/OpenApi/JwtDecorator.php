@@ -2,9 +2,9 @@
 
 namespace App\OpenApi;
 
-use ApiPlatform\Core\OpenApi\Factory\OpenApiFactoryInterface;
 use ApiPlatform\Core\OpenApi\OpenApi;
 use ApiPlatform\Core\OpenApi\Model;
+use ApiPlatform\OpenApi\Factory\OpenApiFactoryInterface;
 
 final class JwtDecorator implements OpenApiFactoryInterface
 {
@@ -12,7 +12,7 @@ final class JwtDecorator implements OpenApiFactoryInterface
         private readonly OpenApiFactoryInterface $decorated
     ) {}
 
-    public function __invoke(array $context = []): OpenApi
+    public function __invoke(array $context = []): \ApiPlatform\OpenApi\OpenApi
     {
         $openApi = ($this->decorated)($context);
         $schemas = $openApi->getComponents()->getSchemas();
