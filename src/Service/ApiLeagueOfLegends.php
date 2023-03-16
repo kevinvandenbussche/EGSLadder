@@ -3,6 +3,7 @@ namespace App\Service;
 
 class ApiLeagueOfLegends extends HttpClient
 {
+    private ?string $keyRiot = "RGAPI-164dc6ab-1f0e-4c9e-9f89-cf1c420dec29";
 
     public function getPlayerLeagueOfLegends(?string $pseudonyme): ?string
     {
@@ -13,7 +14,7 @@ class ApiLeagueOfLegends extends HttpClient
         try {
             $responseForAccountId = $response->request(
                 'GET',
-                'https://euw1.api.riotgames.com/lol/summoner/v4/summoners/by-name/' . $pseudonyme . '?api_key=RGAPI-df1be0e0-0829-4a37-ba74-77065b87f501'
+                'https://euw1.api.riotgames.com/lol/summoner/v4/summoners/by-name/' . $pseudonyme . '?api_key=' . $this->keyRiot
             );
             $arrayForAccountId = $responseForAccountId->toArray();
             $accountId = $arrayForAccountId["accountId"];
@@ -24,7 +25,7 @@ class ApiLeagueOfLegends extends HttpClient
         try {
             $responseForEncryptedId = $response->request(
                 'GET',
-                'https://euw1.api.riotgames.com/lol/summoner/v4/summoners/by-account/' . $accountId . '?api_key=RGAPI-df1be0e0-0829-4a37-ba74-77065b87f501'
+                'https://euw1.api.riotgames.com/lol/summoner/v4/summoners/by-account/' . $accountId . '?api_key=' . $this->keyRiot
             );
             $arrayForEncryptedId = $responseForEncryptedId->toArray();
             return $arrayForEncryptedId["id"];
@@ -40,7 +41,7 @@ class ApiLeagueOfLegends extends HttpClient
         try {
             $responseForEncryptedId = $response->request(
                 'GET',
-                'https://euw1.api.riotgames.com/lol/league/v4/entries/by-summoner/' . $accountId . '?api_key=RGAPI-df1be0e0-0829-4a37-ba74-77065b87f501'
+                'https://euw1.api.riotgames.com/lol/league/v4/entries/by-summoner/' . $accountId . '?api_key=' . $this->keyRiot
             );
             $arrayForElo = $responseForEncryptedId->toArray();
 
