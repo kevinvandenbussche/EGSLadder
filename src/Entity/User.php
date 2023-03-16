@@ -9,9 +9,22 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
-
+use Symfony\Component\Validator\Constraints as Assert;
+#[ApiResource(
+    collectionOperations: [
+        'delete' => [
+            'security' => 'is_granted("ROLE_ADMIN")',
+        ],
+        'patch' => [
+            'security' => 'is_granted("ROLE_ADMIN")',
+        ],
+        'put' => [
+            'security' => 'is_granted("ROLE_ADMIN")',
+        ],
+    ]
+)]
 #[ORM\Entity(repositoryClass: UserRepository::class)]
-#[ApiResource]
+
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
@@ -20,21 +33,29 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?int $id = null;
 
     #[ORM\Column(length: 180, unique: true)]
+    #[Assert\Email]
+    #[Assert\NotBlank]
     private ?string $email = null;
 
     #[ORM\Column]
+    #[Assert\NotBlank]
     private array $roles = [];
 
     /**
      * @var string The hashed password
      */
     #[ORM\Column]
+    #[Assert\NotBlank]
     private ?string $password = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank]
+    #[Assert\Length(min: 3, max: 255)]
     private ?string $name = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank]
+    #[Assert\Length(min: 3, max: 255)]
     private ?string $firstname = null;
 
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: ToPlay::class, cascade: ["remove"])]

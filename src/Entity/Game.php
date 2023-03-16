@@ -7,9 +7,23 @@ use App\Repository\GameRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 #[ORM\Entity(repositoryClass: GameRepository::class)]
-#[ApiResource]
+#[ApiResource(
+    collectionOperations: [
+        'delete' => [
+            'security' => 'is_granted("ROLE_ADMIN")',
+        ],
+        'patch' => [
+            'security' => 'is_granted("ROLE_ADMIN")',
+        ],
+        'put' => [
+            'security' => 'is_granted("ROLE_ADMIN")',
+        ],
+    ]
+)]
 class Game
 {
     #[ORM\Id]
@@ -18,6 +32,8 @@ class Game
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank]
+    #[Assert\Length(min: 3, max: 255)]
     private ?string $name = null;
 
     #[ORM\OneToMany(mappedBy: 'game', targetEntity: CalculationElo::class, cascade: ['persist', 'remove'])]

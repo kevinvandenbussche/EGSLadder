@@ -4,13 +4,25 @@ namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\ToPlayRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 #[ORM\Entity(repositoryClass: ToPlayRepository::class)]
-#[ApiResource]
+#[ApiResource(
+    collectionOperations: [
+        'delete' => [
+            'security' => 'is_granted("ROLE_ADMIN")',
+        ],
+        'patch' => [
+            'security' => 'is_granted("ROLE_ADMIN")',
+        ],
+        'put' => [
+            'security' => 'is_granted("ROLE_ADMIN")',
+        ],
+    ]
+)]
 class ToPlay
 {
     #[ORM\Id]
