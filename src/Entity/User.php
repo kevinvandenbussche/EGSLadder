@@ -12,15 +12,18 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 #[ApiResource(
     collectionOperations: [
-        'delete' => [
+        'get'=>[
             'security' => 'is_granted("ROLE_ADMIN")',
         ],
-        'patch' => [
+        'put'=>[
             'security' => 'is_granted("ROLE_ADMIN")',
         ],
-        'put' => [
+        'delete'=>[
             'security' => 'is_granted("ROLE_ADMIN")',
         ],
+        'patch'=>[
+            'security' => 'is_granted("ROLE_ADMIN")',
+        ]
     ]
 )]
 #[ORM\Entity(repositoryClass: UserRepository::class)]
