@@ -38,9 +38,6 @@ class FindElo extends AbstractController
     public function __invoke($id, $idGame): Response
     {
         $data = $this->toPlayRepository->findAllEloByUser($id, $idGame);
-        foreach ($data as $key => $value) {
-            $data[$key]['dateRegisterElo'] = $value['dateRegisterElo']->format('d-m-Y');
-        }
         return new Response(json_encode($data));
     }
 }
