@@ -26,3 +26,6 @@ find_coach:
 search_coach:
     path: api/search-coach/{string}
     controller: App\Controller\SearchCoach::__invoke
+find_message_by_messenger:
+    path: api/find-message-by-messenger/{idUserSend}/{idUserReceive}
+    controller: App\Controller\FindMessageByMessenger::__invoke
