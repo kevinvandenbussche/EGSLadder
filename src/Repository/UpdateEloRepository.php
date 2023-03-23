@@ -2,7 +2,7 @@
 
 namespace App\Repository;
 
-use App\Entity\UpdateElo;
+use App\Controller\UpdateElo;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
