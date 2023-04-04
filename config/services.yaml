@@ -28,6 +28,9 @@ services:
     App\DataPersister\UserDataPersister:
         bind:
             $decorated: '@api_platform.doctrine.orm.data_persister'
+    App\DataPersister\MessageDataPersister:
+        bind:
+            $decorated: '@api_platform.doctrine.orm.data_persister'
 
     App\OpenApi\JwtDecorator:
         decorates: 'api_platform.openapi.factory'

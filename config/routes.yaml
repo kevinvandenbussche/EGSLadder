@@ -29,3 +29,6 @@ search_coach:
 find_message_by_messenger:
     path: api/find-message-by-messenger/{idUserSend}/{idUserReceive}
     controller: App\Controller\FindMessageByMessenger::__invoke
+find_message_by_user:
+    path: api/find-message-by-user/{idUser}
+    controller: App\Controller\FindMessageByUser::__invoke
