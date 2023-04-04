@@ -10,19 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
-#[ApiResource(
-    collectionOperations: [
-        'delete' => [
-            'security' => 'is_granted("ROLE_ADMIN")',
-        ],
-        'patch' => [
-            'security' => 'is_granted("ROLE_ADMIN")',
-        ],
-        'put' => [
-            'security' => 'is_granted("ROLE_ADMIN")',
-        ],
-    ]
-)
+#[ApiResource
 ]
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 
@@ -62,9 +50,19 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: ToPlay::class, cascade: ["remove"])]
     private Collection $toPlays;
 
+    #[ORM\OneToMany(mappedBy: 'send', targetEntity: Message::class, cascade: ["remove"])]
+    private Collection $send;
+
+    #[ORM\OneToMany(mappedBy: 'receive', targetEntity: Message::class, cascade: ["remove"])]
+    private Collection $receive;
+
+
+
     public function __construct()
     {
         $this->toPlays = new ArrayCollection();
+        $this->send = new ArrayCollection();
+        $this->receive = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -185,5 +183,37 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         }
 
         return $this;
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getSend(): Collection
+    {
+        return $this->send;
+    }
+
+    /**
+     * @param Collection $send
+     */
+    public function setSend(Collection $send): void
+    {
+        $this->send = $send;
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getReceive(): Collection
+    {
+        return $this->receive;
+    }
+
+    /**
+     * @param Collection $receive
+     */
+    public function setReceive(Collection $receive): void
+    {
+        $this->receive = $receive;
     }
 }
