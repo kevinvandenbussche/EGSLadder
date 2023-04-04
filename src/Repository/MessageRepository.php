@@ -51,6 +51,18 @@ class MessageRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    public function findMessageByUser($idUser)
+    {
+        return $this->createQueryBuilder('m')
+            ->select('m.id', 'm.text', 'm.timeStamp', 'u.name', 'u.firstname')
+            ->innerJoin('m.receive', 'u')
+            ->where('m.send = ' . $idUser)
+            ->orWhere('m.receive = ' . $idUser)
+            ->orderBy('m.timeStamp', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
+
 //    /**
 //     * @return Message[] Returns an array of Message objects
 //     */
