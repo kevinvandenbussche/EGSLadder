@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Metadata\Post;
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -10,8 +11,23 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
-#[ApiResource
-]
+#[ApiResource(
+    collectionOperations:[
+        'get' => [
+            'security' => 'is_granted("ROLE_ADMIN")',
+        ],
+        'delete' => [
+            'security' => 'is_granted("ROLE_ADMIN")',
+        ],
+        'patch' => [
+            'security' => 'is_granted("ROLE_ADMIN")',
+        ],
+        'put' => [
+            'security' => 'is_granted("ROLE_ADMIN")',
+        ],
+    ]
+)]
+
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 
 class User implements UserInterface, PasswordAuthenticatedUserInterface

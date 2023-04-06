@@ -10,7 +10,25 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 
 #[ORM\Entity(repositoryClass: ToPlayRepository::class)]
-#[ApiResource]
+#[ApiResource(
+    collectionOperations: [
+        'get' => [
+            'security' => 'is_granted("ROLE_USER")',
+        ],
+        'post' => [
+            'security' => 'is_granted("ROLE_ADMIN")',
+        ],
+        'delete' => [
+            'security' => 'is_granted("ROLE_ADMIN")',
+        ],
+        'put' => [
+            'security' => 'is_granted("ROLE_ADMIN")',
+        ],
+        'patch' => [
+            'security' => 'is_granted("ROLE_ADMIN")',
+        ],
+    ],
+)]
 class ToPlay
 {
     #[ORM\Id]
