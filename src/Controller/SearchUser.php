@@ -28,7 +28,7 @@ use function Symfony\Component\String\u;
 )]
 #[AsController]
 
-class SearchPlayer extends AbstractController
+class SearchUser extends AbstractController
 {
     private UserRepository $userRepository;
     public function __construct(UserRepository $userRepository)
@@ -43,7 +43,7 @@ class SearchPlayer extends AbstractController
             $users = $this->userRepository->searchBarreUser($string);
             foreach ($users as $user) {
                 foreach ($user['roles'] as $role){
-                    if ($role === 'ROLE_USER'){
+                    if ($role === 'ROLE_USER' || $role === 'ROLE_ADMIN'){
                         $arrayRoleUser[] = $user;
                     }
                 }

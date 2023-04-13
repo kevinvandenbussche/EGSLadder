@@ -41,7 +41,7 @@ class DataUserLightData extends AbstractController
         $arrayWithUserRoleUser = [];
         foreach ($datas as $data) {
             foreach ($data['roles'] as $role) {
-                if ($role === 'ROLE_USER'){
+                if ($role === 'ROLE_USER' || $role === 'ROLE_ADMIN'){
                     $arrayWithUserRoleUser[] = $data;
                 }
             }

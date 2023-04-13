@@ -13,7 +13,7 @@ games_by_player:
     controller: App\Controller\GamesByUser::__invoke
 search_player:
     path: api/search-user/{string}
-    controller: App\Controller\SearchPlayer::__invoke
+    controller: App\Controller\SearchUser::__invoke
 update_elo:
     path: api/update-elo/{id}
     controller: App\Controller\UpdateElo::__invoke
