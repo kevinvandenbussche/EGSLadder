@@ -39,3 +39,9 @@ security:
         - { path: ^/docs, roles: ROLE_USER }
         - { path: ^/api/to_plays, roles: ROLE_USER }
         - { path: ^/api/games, roles: ROLE_USER }
+        - { path: ^/api/search-user, roles: ROLE_ADMIN }
+        - { path: ^/api/update-elo, roles: ROLE_ADMIN }
+        - { path: ^/api/find-coach, roles: ROLE_ADMIN }
+        - { path: ^/api/search-coach, roles: ROLE_ADMIN }
+        - { path: ^/api/data-user-for-main-page, roles: ROLE_ADMIN }
+
